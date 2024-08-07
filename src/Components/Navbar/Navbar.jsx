@@ -1,12 +1,9 @@
-import React, { useContext, useState } from "react";
-import style from "./Navbar.module.css";
+import React, { useContext } from "react";
 import logo from "../../assets/images/freshcart-logo.svg";
 import { NavLink, useNavigate } from "react-router-dom";
-import { CounterContext } from "../Context/CounterContext";
 import { UserContext } from "../Context/UserContext";
 
 export default function Navbar() {
-  let { counter, setCounter } = useContext(CounterContext);
   let { userData, setUserData } = useContext(UserContext);
   let navigate = useNavigate();
   function logout() {
@@ -23,7 +20,7 @@ export default function Navbar() {
             {userData && (
               <ul className="flex flex-col md:flex-row space-x-2">
                 <li>
-                  <NavLink to="home">Home {counter}</NavLink>
+                  <NavLink to="home">Home</NavLink>
                 </li>
                 <li>
                   <NavLink to="cart">cart</NavLink>

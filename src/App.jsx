@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Components/Layout/Layout.jsx";
@@ -15,6 +12,7 @@ import Notfound from "./Components/Notfound/Notfound.jsx";
 import CounterContextProvider from "./Components/Context/CounterContext.jsx";
 import UserContextProvider from "./Components/Context/UserContext.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute.jsx";
+import ProductDetails from "./Components/ProductDetails/ProductDetails.jsx";
 
 let routers = createBrowserRouter([
   {
@@ -41,7 +39,15 @@ let routers = createBrowserRouter([
         path: "products",
         element: (
           <ProtectedRoute>
-            <Products />{" "}
+            <Products />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "productDetails/:id",
+        element: (
+          <ProtectedRoute>
+            <ProductDetails />
           </ProtectedRoute>
         ),
       },
@@ -49,7 +55,6 @@ let routers = createBrowserRouter([
         path: "categories",
         element: (
           <ProtectedRoute>
-            {" "}
             <Categories />
           </ProtectedRoute>
         ),
@@ -58,7 +63,7 @@ let routers = createBrowserRouter([
         path: "brands",
         element: (
           <ProtectedRoute>
-            <Brands />{" "}
+            <Brands />
           </ProtectedRoute>
         ),
       },
