@@ -13,26 +13,26 @@ export default function Navbar() {
   }
   return (
     <>
-      <nav className="bg-gray-200  md:fixed top-0 inset-x-0 py-2 text-center capitalize">
+      <nav className="bg-gray-200  md:fixed top-0 inset-x-0  z-50 py-2 text-center capitalize">
         <div className="container flex flex-col md:flex-row justify-between items-center text-gray-500">
           <div className="flex flex-col md:flex-row space-x-3">
             <img src={logo} width={120} alt="" />
             {userData && (
               <ul className="flex flex-col md:flex-row space-x-2">
                 <li>
-                  <NavLink to="home">Home</NavLink>
+                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="home">Home</NavLink>
                 </li>
                 <li>
-                  <NavLink to="cart">cart</NavLink>
+                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="cart">cart</NavLink>
                 </li>
                 <li>
-                  <NavLink to="products">products</NavLink>
+                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="products">products</NavLink>
                 </li>
                 <li>
-                  <NavLink to="categories">categories</NavLink>
+                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="categories">categories</NavLink>
                 </li>
                 <li>
-                  <NavLink to="brands">brands</NavLink>
+                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="brands">brands</NavLink>
                 </li>
               </ul>
             )}
@@ -50,7 +50,7 @@ export default function Navbar() {
                 <li>
                   <li
                     onClick={() => logout()}
-                    className="p-1 bg-red-500 rounded-lg cursor-pointer text-white"
+                    className="p-1  rounded-lg cursor-pointer"
                   >
                     logout
                   </li>
@@ -58,10 +58,10 @@ export default function Navbar() {
               ) : (
                 <>
                   <li>
-                    <NavLink to="login">Login</NavLink>
+                    <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="login">Login</NavLink>
                   </li>
                   <li>
-                    <NavLink to="">Register</NavLink>
+                    <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="">Register</NavLink>
                   </li>
                 </>
               )}

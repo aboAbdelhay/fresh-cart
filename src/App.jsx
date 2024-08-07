@@ -78,7 +78,7 @@ function App() {
   return (
     <UserContextProvider>
       <CounterContextProvider>
-        <RouterProvider router={routers}></RouterProvider>;
+        <RouterProvider router={routers}></RouterProvider>
       </CounterContextProvider>
     </UserContextProvider>
   );
