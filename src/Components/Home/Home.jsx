@@ -1,38 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
 import Loading from "./../Loading/Loading";
 import axios from "axios";
 import RecentProducts from "./../RecentProducts/RecentProducts";
 import Slider from "react-slick";
 import MainSlider from "../MainSlider/MainSlider";
+import useProducts from "../../Hooks/useProducts";
+import useCategories from "../../Hooks/useCategories";
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  async function getApiProducts() {
-    try {
-      const { data } = await axios.get(
-        "https://ecommerce.routemisr.com/api/v1/products"
-      );
-      setProducts(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async function getApiCategories() {
-    try {
-      const { data } = await axios.get(
-        "https://ecommerce.routemisr.com/api/v1/categories"
-      );
-      setCategories(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    getApiProducts();
-    getApiCategories();
-  }, []);
-
   var settings = {
     dots: false,
     infinite: true,
@@ -44,17 +18,19 @@ export default function Home() {
     pauseOnHover: true,
     arrows: false,
   };
+  let { data, isLoading } = useProducts();
+  let categories = useCategories();
   return (
     <>
       <MainSlider />
-      {products.length && categories ? (
+      {!isLoading ? (
         <>
           <div className="row">
             <h3 className="font-medium text-xl my-2 ">
               shop popular Categories
             </h3>
             <Slider {...settings}>
-              {categories.map((category, index) => (
+              {categories?.data?.data.data.map((category, index) => (
                 <div className="my-3" key={index}>
                   <img
                     src={category.image}
@@ -67,7 +43,7 @@ export default function Home() {
             </Slider>{" "}
           </div>
           <div className="flex flex-wrap justify-center items-center">
-            {products.map((product) => (
+            {data?.data.data.map((product) => (
               <RecentProducts key={product.id} product={product} />
             ))}
           </div>
