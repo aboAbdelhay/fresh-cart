@@ -1,16 +1,13 @@
-import React, { useContext, useState } from "react";
-import style from "./Register.module.css";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../Context/UserContext";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 
 export default function Register() {
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  let { userData, setUserData } = useContext(UserContext);
   async function handelRegister(values) {
     try {
       setLoading(true);
@@ -20,7 +17,6 @@ export default function Register() {
       );
       localStorage.setItem("userToken", data.token);
       navigate("/home");
-      setUserData(data.token);
     } catch (err) {
       setLoading(false);
       setApiError(err.response.data.message);
@@ -196,21 +192,35 @@ export default function Register() {
               {formik.errors.phone}
             </div>
           )}
-          {loading ? (
-            <button
-              type="button"
-              className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            >
-              <i className="fas fa-spinner fa-spin-pulse"></i>
-            </button>
-          ) : (
-            <button
-              type="submit"
-              className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            >
-              Submit
-            </button>
-          )}
+          <div className="flex items-center justify-between">
+            {loading ? (
+              <button
+                type="button"
+                className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              >
+                <i className="fas fa-spinner fa-spin-pulse"></i>
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              >
+                Submit
+              </button>
+            )}
+            <div className="text-lg">
+              If you already have an email, go to the
+              <Link
+                to="/login"
+                className="mx-2 text-lg text-gray-500 dark:text-gray-400
+              underline decoration-2 underline-offset-2 hover:text-green-500 dark:hover:text-green-400 transition
+              duration-300"
+              >
+                login
+              </Link>
+              now
+            </div>
+          </div>
         </form>
       </div>
     </>

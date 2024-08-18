@@ -1,71 +1,115 @@
-import React, { useContext } from "react";
+import { useState } from "react";
 import logo from "../../assets/images/freshcart-logo.svg";
-import { NavLink, useNavigate } from "react-router-dom";
-import { UserContext } from "../Context/UserContext";
-
+import { Link, NavLink, useNavigate } from "react-router-dom";
 export default function Navbar() {
-  let { userData, setUserData } = useContext(UserContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  function toggleMenu() {
+    setIsMenuOpen(!isMenuOpen);
+  }
   let navigate = useNavigate();
   function logout() {
     localStorage.removeItem("userToken");
-    setUserData(null);
     navigate("/login");
   }
   return (
     <>
-      <nav className="bg-gray-200  md:fixed top-0 inset-x-0  z-50 py-2 text-center capitalize">
-        <div className="container flex flex-col md:flex-row justify-between items-center text-gray-500">
-          <div className="flex flex-col md:flex-row space-x-3">
-            <img src={logo} width={120} alt="" />
-            {userData && (
-              <ul className="flex flex-col md:flex-row space-x-2">
+      <nav className=" bg-[#f8f9fa] dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <img src={logo} className="" alt="" />
+          <div className="flex items-center md:order-2 space-x-3 md:space-x-2 rtl:space-x-reverse">
+            {localStorage.getItem("userToken") ? (
+              <>
+                <Link
+                  className="transition-all duration-500 rounded-md cursor-pointer"
+                  to="cart"
+                >
+                  <i className="fas fa-cart-shopping fa-xl"></i>
+                </Link>
+                <button
+                  onClick={() => logout()}
+                  type="button"
+                  className="text-white bg-green-500 hover:bg-green-700 transition-all duration-500 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                >
+                  Logout
+                </button>
+                <button
+                  data-collapse-toggle="navbar-sticky"
+                  type="button"
+                  className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                  aria-controls="navbar-sticky"
+                  aria-expanded={isMenuOpen}
+                  onClick={toggleMenu}
+                >
+                  <i className="fas fa-bars fa-xl"></i>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                >
+                  <Link to="login">login</Link>
+                </button>
+                <button
+                  type="button"
+                  className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                >
+                  <Link to="">Register</Link>
+                </button>
+              </>
+            )}
+          </div>
+          <div
+            className={`items-center justify-between ${
+              isMenuOpen ? "block" : "hidden"
+            } w-full text-center md:flex md:w-auto md:order-1`}
+            id="navbar-sticky"
+          >
+            {localStorage.getItem("userToken") && (
+              <ul className="flex flex-col gap-y-3 p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-6  rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
-                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="home">Home</NavLink>
+                  <NavLink className="transition-all duration-500" to="home">
+                    Home
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="cart">cart</NavLink>
+                  <NavLink className="transition-all duration-500" to="cart">
+                    cart
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="products">products</NavLink>
+                  <NavLink
+                    className="transition-all duration-500"
+                    to="wishList"
+                  >
+                    wish list
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="categories">categories</NavLink>
+                  <NavLink
+                    className="transition-all duration-500"
+                    to="products"
+                  >
+                    products
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="brands">brands</NavLink>
+                  <NavLink
+                    className="transition-all duration-500"
+                    to="categories"
+                  >
+                    categories
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink className="transition-all duration-500" to="brands">
+                    brands
+                  </NavLink>
                 </li>
               </ul>
             )}
-          </div>
-          <div className="">
-            <ul className="flex flex-col md:flex-row space-x-2 items-center">
-              <li className="space-x-2 text-black">
-                <i className="fab fa-facebook-f"></i>
-                <i className="fab fa-linkedin-in"></i>
-                <i className="fab fa-youtube"></i>
-                <i className="fab fa-twitter"></i>
-                <i className="fab fa-instagram"></i>
-              </li>
-              {userData ? (
-                <li>
-                  <li
-                    onClick={() => logout()}
-                    className="p-1  rounded-lg cursor-pointer"
-                  >
-                    logout
-                  </li>
-                </li>
-              ) : (
-                <>
-                  <li>
-                    <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="login">Login</NavLink>
-                  </li>
-                  <li>
-                    <NavLink className="py-1 px-2 transition-all duration-500 rounded-md" to="">Register</NavLink>
-                  </li>
-                </>
-              )}
-            </ul>
           </div>
         </div>
       </nav>

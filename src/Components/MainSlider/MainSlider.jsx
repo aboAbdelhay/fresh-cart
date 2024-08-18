@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import style from "./MainSlider.module.css";
 import Slider from "react-slick";
 import slider1 from "../../assets/images/slider-image-1.jpeg";
 import slider2 from "../../assets/images/slider-image-2.jpeg";
@@ -22,15 +20,15 @@ export default function MainSlider() {
 
   return (
     <>
-      <div className="center flex-wrap my-2">
-        <div className="w-3/4">
+      <div className="center flex-col md:flex-row flex-wrap my-2 w-3/4 mx-auto">
+        <div className="w-full md:w-3/4">
           <Slider {...settings}>
             <img src={slider1} className="w-full h-[400px]" alt="" />
             <img src={slider2} className="w-full h-[400px]" alt="" />
             <img src={slider3} className="w-full h-[400px]" alt="" />
           </Slider>{" "}
         </div>
-        <div className="w-1/4">
+        <div className="w-full md:w-1/4">
           <img src={img1} className="w-full h-[200px]" alt="" />
           <img src={img2} className="w-full h-[200px]" alt="" />
         </div>

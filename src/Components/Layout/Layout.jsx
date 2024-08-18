@@ -1,15 +1,12 @@
-import Navbar from "../Navbar/Navbar.jsx";
-import Footer from "../Footer/Footer.jsx";
 import { Outlet } from "react-router-dom";
-
+import Navbar from "./../Navbar/Navbar";
 export default function Layout() {
   return (
     <>
       <Navbar />
-      <div className="container md:pt-12">
+      <div className="container pt-20">
         <Outlet></Outlet>
       </div>
-      <Footer />
     </>
   );
 }
