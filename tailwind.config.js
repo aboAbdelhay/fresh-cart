@@ -5,7 +5,10 @@ export default {
     extend: {
       container:{
         center:true
-      }
+      },
+      screens: {
+        'md': '850px', // تغيير قيمة الشاشة 'md' إلى 800px أو أي قيمة أخرى ترغب بها
+      },
     },
   },
   plugins: [],

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useGetCart } from "../../Hooks/useGetCart";
 import toast from "react-hot-toast";
 import { useGetWishList } from "../../Hooks/useGetWishList";
+import StarRating from "../StarRating/StarRating";
 
 export default function ProductDetails() {
   const [isAdding, setIsAdding] = useState(false);
@@ -51,9 +52,9 @@ export default function ProductDetails() {
     isLoading: isLoadingRelated,
     error: relatedError,
   } = useQuery({
-    queryKey: ["relatedProducts", productDetails?.category?.id],
-    queryFn: () => fetchRelatedProducts(productDetails?.category?.id),
-    enabled: !!productDetails?.category?.id, // Fetch related products only if productDetails and categoryId are available
+    queryKey: ["relatedProducts", productDetails?.category?._id],
+    queryFn: () => fetchRelatedProducts(productDetails?.category?._id),
+    enabled: !!productDetails?.category?._id, // Fetch related products only if productDetails and categoryId are available
   });
 
   const settings = {
@@ -140,15 +141,13 @@ export default function ProductDetails() {
   const shortTitle = productTitle.split(" ").slice(0, 2).join(" ");
 
   return (
-    <div className="pt-4 pb-14">
-      <button>
-        <Link to="/home" className="text-green-600 fa-2x">
-          <i className="fas fa-arrow-left"></i> Back Home
+    <div>
+      <div className="text-green-600 text-4xl">
+        <Link to="/products" className="ms-8 ">
+          <i className="fas fa-arrow-left"></i>
         </Link>
-      </button>
-      <h2 className="text-4xl text-center text-green-600">
-        Product Details {shortTitle}
-      </h2>
+        <h2 className=" text-center">Product Details {shortTitle}</h2>
+      </div>
       <div className="flex flex-wrap items-center justify-center pt-10">
         <div className="w-1/4">
           <Slider {...settings}>
@@ -172,7 +171,7 @@ export default function ProductDetails() {
                 {productDetails.price} EGP
               </p>
               <p className="text-sm text-gray-600">
-                <i className="fas fa-star text-yellow-400"></i>
+                <StarRating ratingsAverage={productDetails.ratingsAverage} />
                 {productDetails.ratingsAverage}
               </p>
             </div>
@@ -193,8 +192,8 @@ export default function ProductDetails() {
           </div>
         </div>
       </div>
-      <div className="text-center w-3/4 ms-auto">
-        <h2 className="text-center text-green-600 text-2xl mb-4">
+      <div className="text-center mt-8">
+        <h2 className="text-center text-green-600 text-3xl mb-6">
           Related Products
         </h2>
         <Slider {...settingsRelatedProducts}>

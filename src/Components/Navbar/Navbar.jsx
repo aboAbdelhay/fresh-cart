@@ -1,11 +1,17 @@
 import { useState } from "react";
 import logo from "../../assets/images/freshcart-logo.svg";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useGetCart } from "../../Hooks/useGetCart";
+import { useGetWishList } from "../../Hooks/useGetWishList";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  let { data: dataCart } = useGetCart();
+  let { data: dataWishList } = useGetWishList();
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
+  }
+  function closeMenu() {
+    setIsMenuOpen(false); 
   }
   let navigate = useNavigate();
   function logout() {
@@ -17,14 +23,26 @@ export default function Navbar() {
       <nav className=" bg-[#f8f9fa] dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <img src={logo} className="" alt="" />
-          <div className="flex items-center md:order-2 space-x-3 md:space-x-2 rtl:space-x-reverse">
+          <div className="flex items-center md:order-2 space-x-3 md:space-x-4 rtl:space-x-reverse">
             {localStorage.getItem("userToken") ? (
               <>
                 <Link
-                  className="transition-all duration-500 rounded-md cursor-pointer"
+                  className="transition-all duration-500 rounded-md cursor-pointer relative"
                   to="cart"
                 >
                   <i className="fas fa-cart-shopping fa-xl"></i>
+                  <span className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 text-white w-5 h-5 center bg-green-500 rounded-lg">
+                    {dataCart?.numOfCartItems}
+                  </span>
+                </Link>
+                <Link
+                  className="transition-all duration-500 rounded-md cursor-pointer relative"
+                  to="wishList"
+                >
+                  <i className="fas fa-heart fa-xl"></i>
+                  <span className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 text-white w-5 h-5 center bg-green-500 rounded-lg">
+                    {dataWishList?.count}
+                  </span>
                 </Link>
                 <button
                   onClick={() => logout()}
@@ -62,7 +80,7 @@ export default function Navbar() {
             )}
           </div>
           <div
-            className={`items-center justify-between ${
+            className={`items-center justify-between transition-all duration-500 ${
               isMenuOpen ? "block" : "hidden"
             } w-full text-center md:flex md:w-auto md:order-1`}
             id="navbar-sticky"

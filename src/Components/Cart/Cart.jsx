@@ -9,7 +9,6 @@ export default function Cart() {
   const { data: cartData, error, isLoading, refetch } = useGetCart();
   const [isProcessing, setIsProcessing] = useState(false);
   let Navigate = useNavigate();
-  console.log(cartData);
 
   const updateProductInCart = async (productId, count) => {
     if (count > 0) {
