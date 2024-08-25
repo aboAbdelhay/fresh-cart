@@ -19,6 +19,12 @@ import Brands from "./Components/Brands/Brands";
 import Cart from "./Components/Cart/Cart";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import WishList from "./Components/WishList/WishList";
+import Checkout from "./Components/Checkout/Checkout";
+import Allorders from "./Components/Allorders/Allorders";
+import UserContextProvider from "./Context/UserContext";
+import PersonalDetails from "./Components/PersonalDetails/PersonalDetails";
+import AddAddress from "./Components/AddAddress/AddAddress";
+import ChangePassword from "./Components/ChangePassword/ChangePassword";
 let routers = createBrowserRouter([
   {
     path: "",
@@ -32,38 +38,7 @@ let routers = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-      {
-        path: "forgetPassword",
-        element: (
-          <ProtectedRoute>
-            <ForgetPassword />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "verifyResetCode",
-        element: (
-          <ProtectedRoute>
-            <VerifyResetCode />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "updateUserPassword",
-        element: (
-          <ProtectedRoute>
-            <UpdateUserPassword />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "resetPassword",
-        element: (
-          <ProtectedRoute>
-            <ResetPassword />
-          </ProtectedRoute>
-        ),
-      },
+
       {
         path: "products",
         element: (
@@ -105,6 +80,22 @@ let routers = createBrowserRouter([
         ),
       },
       {
+        path: "checkout",
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "allorders",
+        element: (
+          <ProtectedRoute>
+            <Allorders />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "productDetails/:id",
         element: (
           <ProtectedRoute>
@@ -112,15 +103,51 @@ let routers = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "personalDetails",
+        element: (
+          <ProtectedRoute>
+            <PersonalDetails />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "addAddress",
+        element: (
+          <ProtectedRoute>
+            <AddAddress />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "changePassword",
+        element: (
+          <ProtectedRoute>
+            <ChangePassword />
+          </ProtectedRoute>
+        ),
+      },
       { path: "login", element: <Login /> },
       { index: true, element: <Register /> },
       {
+        path: "forgetPassword",
+        element: <ForgetPassword />,
+      },
+      {
+        path: "verifyResetCode",
+        element: <VerifyResetCode />,
+      },
+      {
+        path: "updateUserPassword",
+        element: <UpdateUserPassword />,
+      },
+      {
+        path: "resetPassword",
+        element: <ResetPassword />,
+      },
+      {
         path: "*",
-        element: (
-          <ProtectedRoute>
-            <Notfound />
-          </ProtectedRoute>
-        ),
+        element: <Notfound />,
       },
     ],
   },
@@ -129,38 +156,42 @@ let query = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={query}>
-      <RouterProvider router={routers}></RouterProvider>
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          className: "",
-          duration: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          // pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          style: {
-            // background: '#363636',
-            // color: '#fff',
-          },
-          // Default options for specific types
-          success: {
-            duration: 3000,
-            theme: {
-              // primary: 'green',
-              // secondary: 'black',
-            },
-          },
-        }}
-      />
-      <ReactQueryDevtools />
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={query}>
+        <UserContextProvider>
+          <RouterProvider router={routers}></RouterProvider>
+          <Toaster
+            position="top-right"
+            reverseOrder={false}
+            gutter={8}
+            containerClassName=""
+            containerStyle={{}}
+            toastOptions={{
+              className: "",
+              duration: 4000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              // pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              style: {
+                // background: '#363636',
+                // color: '#fff',
+              },
+              // Default options for specific types
+              success: {
+                duration: 3000,
+                theme: {
+                  // primary: 'green',
+                  // secondary: 'black',
+                },
+              },
+            }}
+          />
+          <ReactQueryDevtools />
+        </UserContextProvider>
+      </QueryClientProvider>
+    </>
   );
 }
 

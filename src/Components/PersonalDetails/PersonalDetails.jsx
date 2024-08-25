@@ -1,44 +1,61 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useFormik } from "formik";
-import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Loading from "../Loading/Loading";
+import { useFormik } from "formik";
 
-export default function Login() {
+export default function PersonalDetails() {
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("userData"))
+  );
 
-  async function handelLoin(values) {
+  async function handelPersonalDetails(values) {
     try {
       setLoading(true);
-      let { data } = await axios.post(
-        "https://ecommerce.routemisr.com/api/v1/auth/signin",
-        values
+      let { data } = await axios.put(
+        "https://ecommerce.routemisr.com/api/v1/users/updateMe/",
+        values,
+        {
+          headers: { token: localStorage.getItem("userToken") },
+        }
       );
-      localStorage.setItem("userToken", data.token);
-      localStorage.setItem("userData", JSON.stringify(data.user));
+      console.log(data);
+      console.log("true");
+
+      setUserData(data.data);
+      localStorage.setItem("userData", JSON.stringify(data.data));
       setLoading(false);
-      navigate("/home");
     } catch (err) {
+      console.log("false");
+      console.log(err);
+
       setLoading(false);
       setApiError(err.response?.data?.message || "An error occurred");
     }
   }
 
   let validationSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string().required("Password is required"),
+    name: Yup.string()
+      .min(3, "Min length is 3")
+      .max(9, "Max length is 9")
+      .required(),
+    email: Yup.string().email("Invalid email").required(),
+    phone: Yup.string()
+      .matches(/^(002)?01[0125][0-9]{8}$/, "Phone must be Egyptian number")
+      .required(),
   });
 
-  let formik = useFormik({
+  const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      name: userData?.name || "",
+      email: userData?.email || "",
+      phone: userData?.phone || "",
     },
     validationSchema,
-    onSubmit: handelLoin,
+    onSubmit: handelPersonalDetails,
   });
 
   return (
@@ -48,7 +65,7 @@ export default function Login() {
       ) : (
         <div className="mx-auto md:w-1/2 py-12 px-6 shadow-css rounded-lg mt-4">
           <h1 className="text-3xl md:text-4xl pb-2 font-semibold text-center text-green-500">
-            <i className="fas fa-user"></i> Login
+            <i className="fas fa-user"></i> Personal Details
           </h1>
           <form onSubmit={formik.handleSubmit}>
             {apiError && (
@@ -57,6 +74,32 @@ export default function Login() {
                 role="alert"
               >
                 {apiError}
+              </div>
+            )}
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.name}
+                type="text"
+                name="name"
+                id="name"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
+                placeholder=" "
+              />
+              <label
+                htmlFor="name"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Enter Your Name
+              </label>
+            </div>
+            {formik.errors.name && formik.touched.name && (
+              <div
+                className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert"
+              >
+                {formik.errors.name}
               </div>
             )}
             <div className="relative z-0 w-full mb-5 group">
@@ -89,26 +132,26 @@ export default function Login() {
               <input
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.password}
-                type="password"
-                name="password"
-                id="password"
+                value={formik.values.phone}
+                type="tel"
+                name="phone"
+                id="phone"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
                 placeholder=" "
               />
               <label
-                htmlFor="password"
+                htmlFor="phone"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Enter Your Password
+                Enter Your Phone
               </label>
             </div>
-            {formik.errors.password && formik.touched.password && (
+            {formik.errors.phone && formik.touched.phone && (
               <div
                 className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                 role="alert"
               >
-                {formik.errors.password}
+                {formik.errors.phone}
               </div>
             )}
             <div className="flex items-center justify-between flex-col gap-4">
@@ -116,22 +159,13 @@ export default function Login() {
                 type="submit"
                 className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-md w-full  px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
               >
-                Submit
+                Update
               </button>
-              <div className="text-lg">
-                Not a member yet?
-                <Link
-                  to="/"
-                  className="mx-2 text-lg text-green-500 hover:underline decoration-2 underline-offset-2 hover:text-green-600 tr5"
-                >
-                  Register
-                </Link>
-              </div>
               <Link
-                to="/forgetPassword"
+                to="/changePassword"
                 className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-md w-auto  px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
               >
-                Forget Password
+                Change Password
               </Link>
             </div>
           </form>

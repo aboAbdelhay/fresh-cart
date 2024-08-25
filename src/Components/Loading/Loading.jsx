@@ -2,7 +2,7 @@ import { RotatingLines } from "react-loader-spinner";
 export default function Loading() {
   return (
     <>
-      <div className="center">
+      <div className="center h-screen">
         <RotatingLines
           visible={true}
           height="96"
