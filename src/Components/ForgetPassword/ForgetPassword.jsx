@@ -18,7 +18,6 @@ export default function ForgetPassword() {
       if (data.statusMsg == "success") {
         navigate("/verifyResetCode");
       }
-      console.log(data);
     } catch (err) {
       setLoading(false);
       setApiError(err.response.data.message);

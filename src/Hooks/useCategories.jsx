@@ -7,8 +7,7 @@ export default function useCategories() {
   let response = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
-    staleTime: Infinity, // Prevent refetching by making data always fresh
-    cacheTime: Infinity, // Prevent cache invalidation
+    staleTime: Infinity
   });
   return response;
 }

@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Loading from "../Loading/Loading";
 import { useFormik } from "formik";
+import { UserContext } from "../../Context/UserContext";
 
 export default function PersonalDetails() {
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState(
-    JSON.parse(localStorage.getItem("userData"))
-  );
+  let { userData, setUserData } = useContext(UserContext);
 
   async function handelPersonalDetails(values) {
     try {
@@ -22,16 +21,12 @@ export default function PersonalDetails() {
           headers: { token: localStorage.getItem("userToken") },
         }
       );
-      console.log(data);
-      console.log("true");
-
-      setUserData(data.data);
-      localStorage.setItem("userData", JSON.stringify(data.data));
+      setUserData(data.user);
+      localStorage.setItem("userData", JSON.stringify(data.user));
       setLoading(false);
+      setApiError(null);
     } catch (err) {
-      console.log("false");
       console.log(err);
-
       setLoading(false);
       setApiError(err.response?.data?.message || "An error occurred");
     }
@@ -161,12 +156,6 @@ export default function PersonalDetails() {
               >
                 Update
               </button>
-              <Link
-                to="/changePassword"
-                className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-md w-auto  px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-              >
-                Change Password
-              </Link>
             </div>
           </form>
         </div>

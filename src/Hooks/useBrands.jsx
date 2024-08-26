@@ -7,9 +7,7 @@ export default function useBrands() {
   }
   let response = useQuery({
     queryKey: ["brands"],
-    queryFn: getBrands,
-    staleTime: Infinity, // Prevent refetching by making data always fresh
-    cacheTime: Infinity, // Prevent cache invalidation
+    queryFn: getBrands
   });
   return response;
 }

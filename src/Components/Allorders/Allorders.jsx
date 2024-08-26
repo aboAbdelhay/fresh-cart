@@ -15,9 +15,7 @@ export default function Allorders() {
 
   let { data: orders, isLoading } = useQuery({
     queryKey: ["allorders"],
-    queryFn: getAllorders,
-    staleTime: Infinity, // Prevent refetching by making data always fresh
-    cacheTime: Infinity, // Prevent cache invalidation
+    queryFn: getAllorders
   });
 
   return (

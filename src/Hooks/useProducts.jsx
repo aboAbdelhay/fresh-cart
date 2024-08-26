@@ -7,8 +7,6 @@ export default function useProducts() {
   let response = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
-    staleTime: Infinity, // Prevent refetching by making data always fresh
-    cacheTime: Infinity, // Prevent cache invalidation
   });
   return response;
 }
