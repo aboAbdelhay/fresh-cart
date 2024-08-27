@@ -1,21 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useGetCart } from "../../Hooks/useGetCart";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "./../Loading/Loading";
+import { UserContext } from "../../Context/UserContext";
 
 export default function Allorders() {
   const { data: cart } = useGetCart();
+  const { cartOwner } = useContext(UserContext);
 
   function getAllorders() {
     return axios.get(
-      `https://ecommerce.routemisr.com/api/v1/orders/user/${cart?.data?.cartOwner}`
+      `https://ecommerce.routemisr.com/api/v1/orders/user/${cartOwner}`
     );
   }
 
   let { data: orders, isLoading } = useQuery({
     queryKey: ["allorders"],
-    queryFn: getAllorders
+    queryFn: getAllorders,
   });
 
   return (

@@ -12,6 +12,7 @@ export default function Checkout() {
   const navigate = useNavigate(); // Initialize navigate
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
+  
 
   async function handleCheckout(values, paymentMethod) {
     try {
