@@ -12,7 +12,7 @@ export default function Checkout() {
   const navigate = useNavigate(); // Initialize navigate
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+  localStorage.setItem("cartOwner", JSON.stringify(cart?.data?.cartOwner));
 
   async function handleCheckout(values, paymentMethod) {
     try {

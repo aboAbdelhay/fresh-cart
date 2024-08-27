@@ -7,23 +7,9 @@ export default function UserContextProvider({ children }) {
   let [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("userData"))
   );
-  
-  let [cartOwner, setCartOwner] = useState(
-    JSON.parse(localStorage.getItem("cartOwner"))
-  );
-
-  let { data: cart } = useGetCart();
-
-  useEffect(() => {
-    if (cart) {
-      let owner = cart?.data?.cartOwner;
-      setCartOwner(owner);
-      localStorage.setItem("cartOwner", JSON.stringify(owner));
-    }
-  }, [cart]);
 
   return (
-    <UserContext.Provider value={{ userData, setUserData, cartOwner }}>
+    <UserContext.Provider value={{ userData, setUserData }}>
       {children}
     </UserContext.Provider>
   );

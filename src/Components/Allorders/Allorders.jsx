@@ -6,18 +6,16 @@ import Loading from "./../Loading/Loading";
 import { UserContext } from "../../Context/UserContext";
 
 export default function Allorders() {
-  const { data: cart } = useGetCart();
-  const { cartOwner } = useContext(UserContext);
-
   function getAllorders() {
     return axios.get(
-      `https://ecommerce.routemisr.com/api/v1/orders/user/${cartOwner}`
+      `https://ecommerce.routemisr.com/api/v1/orders/user/${JSON.parse(
+        localStorage.getItem("cartOwner")
+      )}`
     );
   }
-
   let { data: orders, isLoading } = useQuery({
     queryKey: ["allorders"],
-    queryFn: getAllorders,
+    queryFn: getAllorders
   });
 
   return (
