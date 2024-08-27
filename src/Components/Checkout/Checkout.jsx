@@ -20,7 +20,7 @@ export default function Checkout() {
 
       const url =
         paymentMethod === "online"
-          ? `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.data._id}?url=https://fresh-cart-alpha.vercel.app/allorders`
+          ? `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.data._id}?url=https://fresh-cart-alpha.vercel.app/`
           : `https://ecommerce.routemisr.com/api/v1/orders/${cart.data._id}`;
 
       const response = await axios.post(

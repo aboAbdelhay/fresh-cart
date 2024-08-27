@@ -31,7 +31,7 @@ let routers = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "home",
+        index: true,
         element: (
           <ProtectedRoute>
             <Home />
@@ -128,7 +128,7 @@ let routers = createBrowserRouter([
         ),
       },
       { path: "login", element: <Login /> },
-      { index: true, element: <Register /> },
+      { path: "register", element: <Register /> },
       {
         path: "forgetPassword",
         element: <ForgetPassword />,

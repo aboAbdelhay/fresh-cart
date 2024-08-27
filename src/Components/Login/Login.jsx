@@ -121,7 +121,7 @@ export default function Login() {
               <div className="text-lg">
                 Not a member yet?
                 <Link
-                  to="/"
+                  to="/register"
                   className="mx-2 text-lg text-green-500 hover:underline decoration-2 underline-offset-2 hover:text-green-600 tr5"
                 >
                   Register
