@@ -20,7 +20,7 @@ export default function Login() {
       localStorage.setItem("userToken", data.token);
       localStorage.setItem("userData", JSON.stringify(data.user));
       setLoading(false);
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setLoading(false);
       setApiError(err.response?.data?.message || "An error occurred");

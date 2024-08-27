@@ -18,7 +18,7 @@ export default function Register() {
       );
       localStorage.setItem("userToken", data.token);
       JSON.parse(localStorage.setItem("userData", JSON.stringify(data.user)));
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setLoading(false);
       setApiError(err.response.data.message);

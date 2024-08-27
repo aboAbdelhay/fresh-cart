@@ -31,8 +31,11 @@ export default function Navbar() {
   function logout() {
     localStorage.removeItem("userToken");
     localStorage.removeItem("userData");
-    navigate("/login");
+    setUserData(null); // تحديث حالة المستخدم
+    navigate("/login", { replace: true }); // استخدام replace بدلاً من push
   }
+  
+  
 
   return (
     <>
@@ -116,13 +119,13 @@ export default function Navbar() {
                           </Link>
                         </li>
                         <li>
-                          <Link
+                          <button
                             onClick={logout}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
                           >
                             <i class="fa-solid fa-arrow-right-from-bracket fa-rotate-180 text-red-500"></i>{" "}
                             Logout
-                          </Link>
+                          </button>
                         </li>
                       </ul>
                     </div>
