@@ -17,6 +17,7 @@ export default function Register() {
         values
       );
       // localStorage.setItem("userToken", data.token);
+      
       // JSON.parse(localStorage.setItem("userData", JSON.stringify(data.user)));
       navigate("/login");
     } catch (err) {
