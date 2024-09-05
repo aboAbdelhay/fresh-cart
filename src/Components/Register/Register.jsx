@@ -16,9 +16,9 @@ export default function Register() {
         "https://ecommerce.routemisr.com/api/v1/auth/signup",
         values
       );
-      localStorage.setItem("userToken", data.token);
-      JSON.parse(localStorage.setItem("userData", JSON.stringify(data.user)));
-      navigate("/");
+      // localStorage.setItem("userToken", data.token);
+      // JSON.parse(localStorage.setItem("userData", JSON.stringify(data.user)));
+      navigate("/login");
     } catch (err) {
       setLoading(false);
       setApiError(err.response.data.message);
